@@ -6,7 +6,7 @@ function App() {
   const [results, setResults] = useState(null);
 
   const search = async () => {
-    const res = await fetch(`http://localhost:8000/search?q=${query}`);
+    const res = await fetch(`https://shopping-agent-eqkj.onrender.com/search?q=${query}`);
     const data = await res.json();
     setResults(data.result);
   };

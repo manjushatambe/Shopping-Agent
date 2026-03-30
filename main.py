@@ -1,12 +1,15 @@
 import asyncio
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+import sys
+
+# Only apply fix on Windows
+if sys.platform.startswith("win"):
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 from fastapi import FastAPI
 from agents.controller import run_agent
 
 app = FastAPI()
-print("MAIN FILE LOADED")
+
 @app.get("/search")
 def search(q: str):
-    result = run_agent(q)
-    return {"result": result}
+    return {"result": run_agent(q)}
