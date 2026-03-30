@@ -3,9 +3,9 @@ import os
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from scrapers.plug import search_plug
-from scrapers.nomad import search_nomad
-from scrapers.peak import search_peak
+from plug import search_plug
+from nomad import search_nomad
+from peak import search_peak
 
 
 def safe_run(scraper_func, query, name):
