@@ -1,3 +1,5 @@
+print("Amazon scraper started")
+
 from playwright.sync_api import sync_playwright
 
 
@@ -21,6 +23,7 @@ def search_amazon(query):
                     "price": float(price.replace(',', '')),
                     "source": "amazon"
                 })
+                print("Amazon results:", results)
             except:
                 pass
 
