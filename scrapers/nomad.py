@@ -1,16 +1,16 @@
 from playwright.sync_api import sync_playwright
 
-def search_plug(query):
+def search_nomad(query):
     results = []
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        url = f"https://plug.tech/search?q={query}"
-        page.goto(url, timeout=60000)
+        url = f"https://nomadgoods.com/search?q={query}"
+        page.goto(url)
 
-        items = page.query_selector_all(".product-card")
+        items = page.query_selector_all(".product-item")
 
         for item in items[:5]:
             try:
@@ -20,7 +20,7 @@ def search_plug(query):
                 results.append({
                     "title": title,
                     "price": float(price),
-                    "source": "plug"
+                    "source": "nomad"
                 })
             except:
                 continue
