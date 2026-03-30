@@ -10,6 +10,6 @@ from agents.controller import run_agent
 
 app = FastAPI()
 
-@app.get("/search")
-def search(q: str):
-    return {"result": run_agent(q)}
+@app.get("/")
+def home():
+    return {"message": "Shopping AI Agent is running 🚀"}
