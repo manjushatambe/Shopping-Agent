@@ -31,7 +31,7 @@ def search_flipkart(query):
             # CRITICAL DEBUG BLOCK
             try:
                 print("Step 4: Before goto", file=sys.stderr)
-                page.goto(url, timeout=60000)
+                page.goto(url, timeout=10000)
                 print("Step 5: After goto", file=sys.stderr)
 
                 print("PAGE TITLE:", page.title(), file=sys.stderr)
@@ -54,7 +54,7 @@ def search_flipkart(query):
 
             print("Step 6: Waiting for selector", file=sys.stderr)
 
-            page.wait_for_selector("div._1AtVbE", timeout=10000)
+            page.wait_for_selector("div._1AtVbE", timeout=5000)
 
             items = page.query_selector_all("div._1AtVbE")
 

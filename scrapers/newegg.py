@@ -13,9 +13,9 @@ def search_newegg(query):
             page = browser.new_page()
 
             print("Opening Newegg...", file=sys.stderr)
-            page.goto(url, timeout=60000)
+            page.goto(url, timeout=10000)
 
-            page.wait_for_selector(".item-cell", timeout=10000)
+            page.wait_for_selector(".item-cell", timeout=5000)
 
             items = page.query_selector_all(".item-cell")
 

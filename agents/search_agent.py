@@ -8,25 +8,23 @@ from agents.fallback import fallback_data
 def search_products(query):
 
     script_path = os.path.abspath("scrapers/runner.py")
-
-    result = subprocess.run(
-        [sys.executable, script_path, query],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",   
-        errors="ignore"     
-    )
-
-    print("STDOUT >>>", repr(result.stdout))
-    print("STDERR >>>", result.stderr)
-
-    # ✅ If no output → fallback
-    if not result.stdout.strip():
-
-        return fallback_data(query)
-
     try:
-        return json.loads(result.stdout)
+
+        result = subprocess.run(
+            [sys.executable, script_path, query],
+            capture_output=True,
+            text=True,
+            check=True,
+            encoding="utf-8",   
+            errors="ignore"     
+            )
+        data = json.loads(result.stdout)
+        # Normalize scraper output to match fallback format
+        return {
+            "all": data,
+            "best": data[0] if data else None,
+            "why": "Scraper data"
+        }
     except Exception as e:
-       
-        return fallback_data(query)
+        print(f"Scraper failed: {e}")
+        return fallback_data()

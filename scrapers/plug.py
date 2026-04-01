@@ -25,7 +25,7 @@ def search_plug(query):
             page = context.new_page()
 
             print("Opening Plug...", file=sys.stderr)
-            page.goto(url, timeout=60000)
+            page.goto(url, timeout=10000)
 
             page.wait_for_timeout(3000)
 
