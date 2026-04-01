@@ -12,7 +12,7 @@ def search_amazon(query):
             print("Step 1: Launching browser", file=sys.stderr)
 
             browser = p.chromium.launch(
-                headless=False,
+                headless=True,
                 args=[
                     "--no-sandbox",
                     "--disable-setuid-sandbox",

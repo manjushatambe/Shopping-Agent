@@ -10,7 +10,7 @@ def search_plug(query):
             url = f"https://www.plug.tech/search?q={quote(query)}"
 
             browser = p.chromium.launch(
-                headless=False,
+                headless=True,
                 args=[
                     "--no-sandbox",
                     "--disable-setuid-sandbox",

@@ -9,7 +9,7 @@ def search_newegg(query):
         try:
             url = f"https://www.newegg.com/p/pl?d={quote(query)}"
 
-            browser = p.chromium.launch(headless=False, args=["--no-sandbox"])
+            browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
             page = browser.new_page()
 
             print("Opening Newegg...", file=sys.stderr)

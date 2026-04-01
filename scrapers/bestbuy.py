@@ -9,7 +9,7 @@ def search_bestbuy(query):
         try:
             url = f"https://www.bestbuy.com/site/searchpage.jsp?st={quote(query)}"
 
-            browser = p.chromium.launch(headless=False, args=["--no-sandbox"])
+            browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
             page = browser.new_page()
 
             print("Opening BestBuy...", file=sys.stderr)

@@ -9,7 +9,7 @@ def search_aliexpress(query):
         try:
             url = f"https://www.aliexpress.com/wholesale?SearchText={quote(query)}"
 
-            browser = p.chromium.launch(headless=False, args=["--no-sandbox"])
+            browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
             page = browser.new_page()
 
             print("Opening AliExpress...", file=sys.stderr)

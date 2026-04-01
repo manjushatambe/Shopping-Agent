@@ -9,7 +9,7 @@ def search_ebay(query):
         try:
             url = f"https://www.ebay.com/sch/i.html?_nkw={quote(query)}"
 
-            browser = p.chromium.launch(headless=False, args=["--no-sandbox"])
+            browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
             page = browser.new_page()
 
             print("Opening eBay...", file=sys.stderr)
