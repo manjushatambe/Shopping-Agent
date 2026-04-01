@@ -2,26 +2,28 @@ import subprocess
 import json
 import sys
 import os
-from unittest import result
 
 from agents.fallback import fallback_data
 
 def search_products(query):
 
     script_path = os.path.abspath("scrapers/runner.py")
-    try:
 
+    try:
         result = subprocess.run(
             [sys.executable, script_path, query],
             capture_output=True,
             text=True,
             check=True,
-            encoding="utf-8",   
-            errors="ignore"     
-            )
-        #data = json.loads(result.stdout)
-        
+            encoding="utf-8",
+            errors="ignore"
+        )
+
         output = result.stdout.strip()
+
+        if not output:
+            return fallback_data()
+
         # Find JSON start
         json_start = output.find("[")
         if json_start != -1:
@@ -32,13 +34,15 @@ def search_products(query):
         except Exception as e:
             print("JSON parse error:", e)
             return fallback_data()
-        
-        # Normalize scraper output to match fallback format
-        return {
-            "all": data,
-            "best": data[0] if data else None,
-            "why": "Scraper data"
-        }
+
+        # ✅ Ensure it's a list of dicts
+        if not isinstance(data, list):
+            return fallback_data()
+
+        clean = [p for p in data if isinstance(p, dict)]
+
+        return clean if clean else fallback_data()
+
     except Exception as e:
         print(f"Scraper failed: {e}")
         return fallback_data()
