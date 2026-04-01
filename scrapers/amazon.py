@@ -34,7 +34,7 @@ def search_amazon(query):
 
             # CRITICAL DEBUG BLOCK
             try:
-                print("Step 4: Before goto", file=sys.stderr)
+        
                 page.goto(url, timeout=10000)
                 print("Step 5: After goto", file=sys.stderr)
 
