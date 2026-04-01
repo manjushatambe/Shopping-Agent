@@ -15,7 +15,7 @@ def search_ebay(query):
             print("Opening eBay...", file=sys.stderr)
             page.goto(url, timeout=10000)
 
-            page.wait_for_selector(".s-item", timeout=5000)
+            page.wait_for_selector(".s-item", timeout=10000)
 
             items = page.query_selector_all(".s-item")
 
