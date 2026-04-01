@@ -1,15 +1,16 @@
 from playwright.sync_api import sync_playwright
-
+import sys
+from urllib.parse import quote
 
 def search_flipkart(query):
     results = []
 
     with sync_playwright() as p:
         try:
-            url = f"https://www.flipkart.com/search?q={query}"
+            url = f"https://www.flipkart.com/s?k={quote(query)}"
 
             browser = p.chromium.launch(
-                headless=True,
+                 headless=False,
                 args=[
                     "--no-sandbox",
                     "--disable-setuid-sandbox",
@@ -18,31 +19,51 @@ def search_flipkart(query):
             )
 
             context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+                viewport={"width": 1280, "height": 800},
+                locale="en-IN"
             )
+
+            print("Step 3: Creating page", file=sys.stderr)
 
             page = context.new_page()
 
-            print("Opening Amazon...")
-            page.goto(url, timeout=60000)
+            # CRITICAL DEBUG BLOCK
+            try:
+                print("Step 4: Before goto", file=sys.stderr)
+                page.goto(url, timeout=60000)
+                print("Step 5: After goto", file=sys.stderr)
 
-            # simulate human behavior
-            page.wait_for_timeout(2000)
-            page.mouse.move(100, 200)
-            page.mouse.wheel(0, 500)
+                print("PAGE TITLE:", page.title(), file=sys.stderr)
+                print(page.content()[:500], file=sys.stderr)
 
-            # 🔍 detect block
-            content = page.content().lower()
-            if "captcha" in content or "access denied" in content:
-                print("❌ Amazon blocked scraping")
+            except Exception as e:
+                print("GOTO FAILED:", e, file=sys.stderr)
                 return []
 
-            items = page.query_selector_all(".s-result-item")
+            # simulate human
+            page.wait_for_timeout(3000)
+            page.mouse.move(100, 200)
+            page.mouse.wheel(0, 800)
+
+            # detect block
+            content = page.content().lower()
+            if "captcha" in content or "access denied" in content:
+                print("Flipkart blocked scraping", file=sys.stderr)
+                return []
+
+            print("Step 6: Waiting for selector", file=sys.stderr)
+
+            page.wait_for_selector("div._1AtVbE", timeout=10000)
+
+            items = page.query_selector_all("div._1AtVbE")
+
+            print(f"Step 7: Found {len(items)} items", file=sys.stderr)
 
             for item in items[:5]:
                 try:
-                    title_el = item.query_selector("h2 span")
-                    price_el = item.query_selector(".a-price-whole")
+                    title_el = item.query_selector("div._4rR01T, a.s1Q9rs")
+                    price_el = item.query_selector("div._30jeq3")
 
                     if not title_el or not price_el:
                         continue
@@ -53,18 +74,17 @@ def search_flipkart(query):
                     results.append({
                         "title": title,
                         "price": float(price),
-                        "source": "amazon"
+                        "source": "flipkart"
                     })
 
                 except Exception as e:
-                    print("Item parse error:", e)
-                    continue
+                    print("Item parse error:", e, file=sys.stderr)
 
             browser.close()
 
         except Exception as e:
-            print("Amazon scraper failed:", e)
+            print("Flipkart scraper failed:", e, file=sys.stderr)
             return []
 
-    print(f"Amazon results: {len(results)}")
+    print(f"Flipkart results: {len(results)}", file=sys.stderr)
     return results

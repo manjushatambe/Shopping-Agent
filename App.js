@@ -18,6 +18,7 @@ function App() {
     setLoading(true);
 
     try {
+      //const res = await fetch(`http://127.0.0.1:8000/search?q=${input}`);
       const res = await fetch(`https://shopping-agent-eqkj.onrender.com/search?q=${input}`);
       const data = await res.json();
 
