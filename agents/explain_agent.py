@@ -19,7 +19,7 @@ def explain_choice(best, query):
         """
 
         response = client.chat.completions.create(
-            model="Llama-3.1-8B-Instruct",  # fast + free
+            model="llama-3.1-8b-instant",  # fast + free
             messages=[
                 {"role": "user", "content": prompt}
             ],
