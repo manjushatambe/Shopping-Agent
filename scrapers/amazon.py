@@ -58,7 +58,7 @@ def search_amazon(query):
 
             print("Step 6: Waiting for selector", file=sys.stderr)
 
-            page.wait_for_selector('[data-component-type="s-search-result"]', timeout=5000)
+            page.wait_for_selector('[data-component-type="s-search-result"]', timeout=30000)
 
             items = page.query_selector_all('[data-component-type="s-search-result"]')
 
