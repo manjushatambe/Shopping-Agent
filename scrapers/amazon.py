@@ -35,7 +35,7 @@ def search_amazon(query):
             # CRITICAL DEBUG BLOCK
             try:
         
-                page.goto(url, timeout=10000)
+                page.goto(url, timeout=30000)
                 print("Step 5: After goto", file=sys.stderr)
 
                 print("PAGE TITLE:", page.title(), file=sys.stderr)
