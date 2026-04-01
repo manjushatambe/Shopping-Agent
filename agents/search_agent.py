@@ -18,8 +18,14 @@ def search_products(query):
             encoding="utf-8",
             errors="ignore"
         )
+        print("========== SUBPROCESS OUTPUT ==========")
+        print("STDOUT:\n", result.stdout)
+        print("STDERR:\n", result.stderr)
+        print("=======================================")
 
         output = result.stdout.strip()
+
+        print("RAW OUTPUT BEFORE JSON:", output[:500])
 
         if not output:
             return fallback_data()
