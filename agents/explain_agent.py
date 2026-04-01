@@ -1,16 +1,35 @@
-import subprocess
+import os
+from groq import Groq
 
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-def explain_choice(product, query):
-    if not product:
-        return "No product found"
+def explain_choice(best, query):
+    try:
+        if not best:
+            return "No product found."
 
-    prompt = f"Why is this the best product for '{query}': {product}"
+        prompt = f"""
+        You are a smart shopping assistant.
 
-    result = subprocess.run(
-        ["ollama", "run", "llama3", prompt],
-        capture_output=True,
-        text=True
-    )
+        User query: {query}
+        Selected product: {best['title']}
+        Price: {best['price']}
 
-    return result.stdout
+        Explain in 2-3 lines why this is a good choice.
+        """
+
+        response = client.chat.completions.create(
+            model="mixtral-8x7b-32768",  # fast + free
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.5,
+        )
+
+        return response.choices[0].message.content.strip()
+
+    except Exception as e:
+        print("Groq error:", e)
+
+        # ✅ fallback (VERY IMPORTANT for production)
+        return f"{best['title']} is a good option for '{query}' based on price and availability."
