@@ -68,6 +68,7 @@ def search_amazon(query):
                 try:
                     title_el = item.query_selector("h2 span")
                     price_el = item.query_selector(".a-price-whole")
+                    link_el = p.query_selector("h2 a")
 
                     if not title_el or not price_el:
                         continue
@@ -75,10 +76,15 @@ def search_amazon(query):
                     title = title_el.inner_text()
                     price = price_el.inner_text().replace(",", "")
 
+                    href = link_el.get_attribute("href")
+                    link = "https://www.amazon.in" + href  # ✅ FIX
+
                     results.append({
                         "title": title,
                         "price": float(price),
-                        "source": "amazon"
+                        "source": "amazon",
+                        "link": link
+                        
                     })
 
                 except Exception as e:
