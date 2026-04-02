@@ -4,7 +4,7 @@ import requests
 # 🔗 Your Render backend URL
 API_URL = "https://shopping-agent-a4rt.onrender.com//search"
 
-st.set_page_config(page_title="ShopHopAI", page_icon="🛒")
+st.set_page_config(page_title="ShopHopAI")
 st.markdown("""
 <h1 style='text-align:center; margin-bottom:5px;'>🛒 ShopHopAI</h1>
 <h4 style='text-align:center; margin-top:0; color:gray;'>(Your Smart Shopping Assistant)</h4>
