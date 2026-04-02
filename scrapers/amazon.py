@@ -68,7 +68,7 @@ def search_amazon(query):
                 try:
                     title_el = item.query_selector("h2 span")
                     price_el = item.query_selector(".a-price-whole")
-                    link_el = p.query_selector("h2 a")
+                    link_el = item.query_selector("a.a-link-normal")
 
                     if not title_el or not price_el:
                         continue

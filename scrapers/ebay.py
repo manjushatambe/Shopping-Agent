@@ -9,20 +9,34 @@ def search_ebay(query):
         try:
             url = f"https://www.ebay.com/sch/i.html?_nkw={quote(query)}"
 
-            browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
+            browser = p.chromium.launch(
+                 headless=False,
+                args=[
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox",
+                    "--disable-blink-features=AutomationControlled"
+                ]
+            )
+
+            context = browser.new_context(
+                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+                viewport={"width": 1280, "height": 800},
+                locale="en-IN"
+            )
+
             page = browser.new_page()
 
             print("Opening eBay...", file=sys.stderr)
-            page.goto(url, timeout=10000)
+            page.goto(url, timeout=30000)
 
-            page.wait_for_selector(".s-item", timeout=10000)
+            page.wait_for_selector("li.s-item",state="attached", timeout=30000)
 
-            items = page.query_selector_all(".s-item")
+            items = page.query_selector_all("li.s-item")
 
             for item in items[:5]:
                 try:
-                    title = item.query_selector(".s-item__title").inner_text()
-                    price = item.query_selector(".s-item__price").inner_text()
+                    title = item.query_selector("li.s-item__title").inner_text()
+                    price = item.query_selector("li.s-item__price").inner_text()
 
                     price = price.replace("$", "").replace(",", "").split(" ")[0]
 
