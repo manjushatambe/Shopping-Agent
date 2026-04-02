@@ -5,7 +5,7 @@ from amazon import search_amazon
 #from flipkart import search_flipkart
 #from reliance_digital import search_reliance
 #from ebay import search_ebay
-from croma import search_croma
+#from croma import search_croma
 #from vijaysales import search_vijaysales
 #from aliexpress import search_aliexpress
 
@@ -45,7 +45,7 @@ def safe_run(scraper_fn, name):
 results += safe_run(search_amazon, "Amazon")
 #results += safe_run(search_flipkart, "Flipkart")
 #results += safe_run(search_reliance, "Reliance Digital")
-results += safe_run(search_croma, "Croma")
+#results += safe_run(search_croma, "Croma")
 #results += safe_run(search_ebay, "eBay")
 #results += safe_run(search_newegg, "Newegg")
 #results += safe_run(search_vijaysales, "Vijay Sales")

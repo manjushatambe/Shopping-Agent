@@ -38,7 +38,11 @@ if st.button("Search") and query:
 
             if all_products:
                 for p in all_products:
-                    st.write(f"• {p['title']} — ₹{p['price']} ({p['source']})")
+                    link = p.get("link", "#")
+                    st.markdown(
+                        f"• [{p['title']}]({link}) — ₹{p['price']} ({p['source']})"
+                    )
+                    #st.write(f"• {p['title']} — ₹{p['price']} ({p['source']})")
             else:
                 st.warning("No products found")
 
