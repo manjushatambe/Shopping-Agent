@@ -5,8 +5,8 @@ import requests
 API_URL = "https://shopping-agent-a4rt.onrender.com//search"
 
 st.markdown("""
-<h1 style='margin-bottom: 5px;'>ShopHopAI</h1>
-<h4 style='margin-top: 0; color: gray;'>Your Smart Shopping Assistant</h4>
+<h1 style='margin-bottom: 0;'>ShopHopAI</h1>
+<h4 style='margin-top: 0; color: gray;'>(Your Smart Shopping Assistant)</h4>
 """, unsafe_allow_html=True)
 st.write("Bored of scrolling multiple shopping sites? Get the best deals in one click! Powered by AI and web scraping magic. ✨")
 
