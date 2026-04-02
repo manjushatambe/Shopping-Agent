@@ -39,7 +39,7 @@ if st.button("Search") and query:
             if all_products:
                 for p in all_products:
                     link = p.get("link", "#")
-                    st.markdown(
+                    st.write(
                         f"• [{p['title']}]({link}) — ₹{p['price']} ({p['source']})"
                     )
                     #st.write(f"• {p['title']} — ₹{p['price']} ({p['source']})")
