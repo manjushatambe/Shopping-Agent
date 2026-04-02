@@ -15,7 +15,7 @@ st.markdown("""
 st.write("Bored of scrolling multiple shopping sites? Get the best deals in one click! Powered by AI and web scraping magic. ✨")
 
 # 🔍 Search input
-query = st.text_input("Enter product (e.g. iPhone, laptop, headphones)")
+query = st.text_input("What are you looking for today?")
 
 if st.button("Search") and query:
 
