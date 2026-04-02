@@ -40,7 +40,7 @@ def search_croma(query):
         page.goto(url, timeout=30000)
 
         # ✅ wait properly
-        page.wait_for_load_state("networkidle")
+        page.wait_for_load_state("domcontentloaded")
         page.wait_for_timeout(5000)
 
         # scroll to trigger lazy load
