@@ -1,25 +1,54 @@
 import os
+import json
 from groq import Groq
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-def explain_choice(best, query):
+
+def format_products(products):
+    text = ""
+    for i, p in enumerate(products, 1):
+        text += f"{i}. {p['title']} | Price: {p.get('price')}\n"
+    return text
+
+
+def build_prompt(query, products):
+    formatted_products = format_products(products[:10])  # limit
+
+    prompt = f"""
+You are a smart shopping assistant.
+
+User query:
+{query}
+
+Available products:
+{formatted_products}
+
+Your task:
+1. Understand user intent (budget, brand, category)
+2. Filter irrelevant products
+3. Compare based on price and value
+4. Recommend top 3
+
+Rules:
+- Explain reasoning
+- Prefer known brands
+- Be concise
+
+Output:
+- Summary
+- Top 3 picks
+- Best budget option
+"""
+    return prompt
+
+
+def ask_llm(query, products):
     try:
-        if not best:
-            return "No product found."
-
-        prompt = f"""
-        You are a smart shopping assistant.
-
-        User query: {query}
-        Selected product: {best['title']}
-        Price: {best['price']}
-
-        Explain in 2-3 lines why this is a good choice.
-        """
+        prompt = build_prompt(query, products)
 
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",  # fast + free
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "user", "content": prompt}
             ],
@@ -31,5 +60,8 @@ def explain_choice(best, query):
     except Exception as e:
         print("Groq error:", e)
 
-        # ✅ fallback (VERY IMPORTANT for production)
-        return f"{best['title']} is a good option for '{query}' based on price and availability."
+        # ✅ fallback (important)
+        if products:
+            best = products[0]
+            return f"{best['title']} is a good option for '{query}'."
+        return "No good products found."
