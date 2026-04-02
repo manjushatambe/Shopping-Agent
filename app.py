@@ -4,10 +4,10 @@ import requests
 # 🔗 Your Render backend URL
 API_URL = "https://shopping-agent-a4rt.onrender.com//search"
 
-st.set_page_config(page_title="Shopping Agent", page_icon="🛒")
+st.set_page_config(page_title="ShopHopAI", page_icon="🛒")
 
-st.title("🛒 AI Shopping Agent")
-st.write("Find the best product across multiple websites")
+st.title("🛒 ShopHopAI - Your Smart Shopping Assistant")
+st.write("Bored of scrolling multiple shopping sites? Get the best deals in one click! Powered by AI and web scraping magic. ✨")
 
 # 🔍 Search input
 query = st.text_input("Enter product (e.g. iPhone, laptop, headphones)")
@@ -28,8 +28,13 @@ if st.button("Search") and query:
 
             if best:
                 st.subheader("🏆 Best Choice")
-                st.success(f"{best['title']} — ₹{best['price']}")
-
+                best_link = best.get("link", "#")
+                st.markdown(f"""
+                ### 🏆 [{best['title']}]({best_link})
+                💰 **Price:** ₹{best['price']}  
+                🏬 **Source:** {best['source']}
+                [🔗 View Product]({best_link})
+                """)
                 st.markdown("**Why this?**")
                 st.info(why)
 
