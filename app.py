@@ -7,8 +7,8 @@ API_URL = "https://shopping-agent-a4rt.onrender.com//search"
 st.markdown("""
 <h1 style='margin-bottom:0;'>
 🛒 ShopHopAI 
-<span style='font-size:16px; color:gray; font-weight:400;'>
-– Your Smart Shopping Assistant
+<span style='font-size:20px; color:gray; font-weight:400;'>
+ (Your Smart Shopping Assistant)
 </span>
 </h1>
 """, unsafe_allow_html=True)
